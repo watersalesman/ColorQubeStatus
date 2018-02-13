@@ -27,18 +27,19 @@ class ColoQubePrinter:
                     title = soup.title.contents[0]
                     title = re.search("Supplies Status- (.+)", title).groups(1)[0]
                     self.display_name = title
-                
+
             # Perform initial update
             self.update()
         except ConnectionError:
             self.display_name = hostname
             self.status = "Offline"
 
-        
+
 
     def __str__(self):
         # Use ASCII escape codes to print out color based on status
-        if self.status in ["Ready", "Power Saver Mode"]:
+        good_statuses = ["Ready", "Power Saver Mode", "Printing"]
+        if self.status in good_statuses:
             color = "\033[92m"
         else:
             color = "\033[91m"
@@ -56,13 +57,13 @@ class ColoQubePrinter:
         else:
             self.status = None;
 
-# TODO read printers from a file, printer.list, one line at a time
+# Read printers from a file, printer.list, one line at a time
 printers = []
 with open("printers.list", "r") as printer_list:
     for hostname in printer_list.readlines():
         printers.append(hostname.strip())
 
-# Create objects and print each one
+# Create objects and print status for each one
 for i in range(len(printers)):
     printers[i] = ColoQubePrinter(printers[i])
     print(printers[i])
