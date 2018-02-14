@@ -34,8 +34,6 @@ class ColoQubePrinter:
             self.display_name = hostname
             self.status = "Offline"
 
-
-
     def __str__(self):
         # Use ASCII escape codes to print out color based on status
         good_statuses = ["Ready", "Standby", "Power Saver Mode", "Printing"]
@@ -61,7 +59,8 @@ class ColoQubePrinter:
 printers = []
 with open("printers.list", "r") as printer_list:
     for hostname in printer_list.readlines():
-        printers.append(hostname.strip())
+        if hostname.strip():
+            printers.append(hostname.strip())
 
 # Create objects and print status for each one
 for i in range(len(printers)):
