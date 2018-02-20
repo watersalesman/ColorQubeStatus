@@ -62,6 +62,9 @@ with open("printers.list", "r") as printer_list:
         if hostname.strip():
             printers.append(hostname.strip())
 
+# Clear screen
+print("\033c")
+
 # Create objects and print status for each one
 for i in range(len(printers)):
     printers[i] = ColoQubePrinter(printers[i])
