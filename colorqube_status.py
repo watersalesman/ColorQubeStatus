@@ -36,9 +36,12 @@ class ColoQubePrinter:
 
     def __str__(self):
         # Use ASCII escape codes to print out color based on status
-        good_statuses = ["Ready", "Standby", "Power Saver Mode", "Printing", "Warming Up"]
+        good_statuses = ["Ready", "Standby", "Power Saver Mode"]
+        busy_statuses = ["Busy", "Warming Up", "Printing"]
         if self.status in good_statuses:
             color = "\033[92m"
+        elif self.status in busy_statuses:
+            color = "\033[93m"
         else:
             color = "\033[91m"
 
