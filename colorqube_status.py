@@ -4,7 +4,7 @@ import re
 import requests
 import shlex
 from bs4 import BeautifulSoup
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, ConnectTimeout
 
 class ColoQubePrinter:
     # Set hostname, display_name, and get status (for now)
@@ -15,7 +15,7 @@ class ColoQubePrinter:
         self.status_url = "http://{}/consumables.html".format(hostname)
         try:
             # Set display name based on response and if a display name was specified
-            response = requests.get(self.status_url)
+            response = requests.get(self.status_url, timeout=2.5)
             status_html = response.content.decode('utf-8')
             if response.status_code == 404:
                 self.display_name = hostname
@@ -30,8 +30,8 @@ class ColoQubePrinter:
 
             # Perform initial update
             self.update()
-        except ConnectionError:
-            self.display_name = hostname
+        except (ConnectTimeout, ConnectionError):
+            self.display_name = self.hostname
             self.status = "Offline"
 
     def __str__(self):
