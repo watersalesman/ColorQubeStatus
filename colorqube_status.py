@@ -15,7 +15,7 @@ class ColoQubePrinter:
         self.status_url = "http://{}/consumables.html".format(hostname)
         try:
             # Set display name based on response and if a display name was specified
-            response = requests.get(self.status_url, timeout=2.5)
+            response = requests.get(self.status_url, timeout=1.5)
             status_html = response.content.decode('utf-8')
             if response.status_code == 404:
                 self.display_name = hostname
