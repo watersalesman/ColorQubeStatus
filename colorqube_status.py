@@ -17,7 +17,7 @@ class ColoQubePrinter:
             # Set display name based on response and if a display name was specified
             response = requests.get(self.status_url, timeout=1.5)
             status_html = response.content.decode('utf-8')
-            if response.status_code == 404:
+            if response.status_code != 200:
                 self.display_name = hostname
             else:
                 if display_name:
@@ -25,8 +25,11 @@ class ColoQubePrinter:
                 else:
                     soup = BeautifulSoup(status_html, "html.parser")
                     title = soup.title.contents[0]
-                    title = re.search("Supplies Status- (.+)", title).groups(1)[0]
-                    self.display_name = title
+                    title = re.search("Supplies Status- (.+)", title)
+                    if title:
+                        self.display_name = title.groups(1)[0]
+                    else:
+                        self.display_name = hostname
 
             # Perform initial update
             self.update()
