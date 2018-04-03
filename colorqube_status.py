@@ -57,7 +57,7 @@ class ColoQubePrinter:
         status_html = requests.get(self.status_url).content.decode('utf-8')
         match = re.search("([\w\s]+)(?:</a>)?</font>", status_html)
         if match:
-            self.status = match.group(1)
+            self.status = match.group(1).strip()
         else:
             self.status = None;
 
