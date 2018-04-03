@@ -4,7 +4,6 @@ import re
 import requests
 import shlex
 from bs4 import BeautifulSoup
-from requests.exceptions import ConnectionError, ConnectTimeout, ReadTimeout
 
 class ColoQubePrinter:
     # Set hostname, display_name, and get status (for now)
@@ -33,7 +32,7 @@ class ColoQubePrinter:
 
             # Perform initial update
             self.update()
-        except (ConnectTimeout, ConnectionError, ReadTimeout):
+        except (requests.ConnectionError, requests.Timeout):
             self.display_name = self.hostname
             self.status = "Offline"
 
