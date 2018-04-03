@@ -3,6 +3,7 @@
 import re
 import requests
 import shlex
+import sys
 from bs4 import BeautifulSoup
 
 class ColoQubePrinter:
@@ -60,17 +61,21 @@ class ColoQubePrinter:
         else:
             self.status = None;
 
-# Read printers from a file, printer.list, one line at a time
-printers = []
-with open("printers.list", "r") as printer_list:
-    for hostname in printer_list.readlines():
-        if hostname.strip():
-            printers.append(hostname.strip())
+try:
+    # Read printers from a file, printer.list, one line at a time
+    printers = []
+    with open("printers.list", "r") as printer_list:
+        for hostname in printer_list.readlines():
+            if hostname.strip():
+                printers.append(hostname.strip())
 
-# Clear screen
-print("\033c")
+    # Clear screen
+    print("\033c")
 
-# Create objects and print status for each one
-for i in range(len(printers)):
-    printers[i] = ColoQubePrinter(printers[i])
-    print(printers[i])
+    # Create objects and print status for each one
+    for i in range(len(printers)):
+        printers[i] = ColoQubePrinter(printers[i])
+        print(printers[i])
+except KeyboardInterrupt:
+    print("Exiting...")
+    sys.exit(1)
